@@ -3,6 +3,13 @@
     height: 100%;
 }
 
+.container-z {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
 .section .section-center {
     display: flex;
     flex-direction: row;

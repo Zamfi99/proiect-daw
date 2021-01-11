@@ -1,21 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAW_Yacht.Models;
+using Microsoft.AspNetCore.Hosting;
 
 namespace DAW_Yacht.Controllers
 {
     public class ImageController : Controller
     {
-        private readonly ModelsContext _context;
+        private readonly ModelsContext _context;  
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ImageController(ModelsContext context)
+        public ImageController(ModelsContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
         }
 
         // GET: Image
@@ -53,16 +57,35 @@ namespace DAW_Yacht.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Filename")] ImageModel imageModel)
+        public async Task<IActionResult> Create([Bind("Id,Filename,RealFilename")] ImageModel imageModel)
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = UploadedFile(imageModel);
+                imageModel.RealFilename = uniqueFileName;
                 _context.Add(imageModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(imageModel);
         }
+        
+        private string UploadedFile(ImageModel model)  
+        {  
+            string uniqueFileName = null;  
+  
+            if (model.Filename != null)  
+            {  
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");  
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Filename.FileName;  
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);  
+                using (var fileStream = new FileStream(filePath, FileMode.Create))  
+                {  
+                    model.Filename.CopyTo(fileStream);  
+                }  
+            }  
+            return uniqueFileName;  
+        }  
 
         // GET: Image/Edit/5
         public async Task<IActionResult> Edit(int? id)

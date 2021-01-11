@@ -30,4 +30,9 @@
       <Folder Include="Migrations" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Role\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Role\Index.cshtml" />
+    </ItemGroup>
+
 </Project>
