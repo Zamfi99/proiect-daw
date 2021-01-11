@@ -9,7 +9,7 @@ namespace DAW_Yacht.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public IdentityUser User { get; set; }
+        public ApplicationUser User { get; set; }
         [Required]
         public YachtModel Yacht { get; set; }
         [Required]

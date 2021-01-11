@@ -20,14 +20,14 @@ namespace DAW_Yacht.Areas.Identity
             builder.ConfigureServices((context, services) =>
             {
                 string mySqlConnectionStr = context.Configuration.GetConnectionString("IdentityDataContextConnection");
-                services.AddDbContext<IdentityDataContext>(options =>
+                services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseMySql(
                         mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
-                    // options.UseSqlServer(
-                    //     context.Configuration.GetConnectionString("IdentityDataContextConnection")));
-
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<IdentityDataContext>();
+                    
+                services.AddDefaultIdentity<ApplicationUser>()
+                    .AddRoles<IdentityRole>()
+                    .AddDefaultUI()
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
             });
         }
     }

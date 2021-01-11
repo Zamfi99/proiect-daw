@@ -1,0 +1,367 @@
+.section {
+    position: relative;
+    height: 100%;
+}
+
+.section .section-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 100vh;
+}
+
+#booking {
+    font-family: 'Montserrat', sans-serif;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#booking::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgba(47, 103, 177, 0.6);
+}
+
+.booking-form {
+    background-color: #fff;
+    padding: 50px 20px;
+    -webkit-box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.booking-form .form-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.booking-form .form-control {
+    background-color: #ebecee;
+    border-radius: 4px;
+    border: none;
+    height: 40px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #3e485c;
+    font-size: 14px;
+}
+
+.booking-form .form-control::-webkit-input-placeholder {
+    color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form .form-control:-ms-input-placeholder {
+    color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form .form-control::placeholder {
+    color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form input[type="date"].form-control:invalid {
+    color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.booking-form select.form-control + .select-arrow {
+    position: absolute;
+    right: 0px;
+    bottom: 4px;
+    width: 32px;
+    line-height: 32px;
+    height: 32px;
+    text-align: center;
+    pointer-events: none;
+    color: rgba(62, 72, 92, 0.3);
+    font-size: 14px;
+}
+
+.booking-form select.form-control + .select-arrow:after {
+    content: '\279C';
+    display: block;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.booking-form .form-label {
+    display: inline-block;
+    color: #3e485c;
+    font-weight: 700;
+    margin-bottom: 6px;
+    margin-left: 7px;
+}
+
+#booking-available-yachts .submit-btn,
+.booking-form .submit-btn {
+    display: inline-block;
+    color: #fff;
+    background-color: #1e62d8;
+    font-weight: 700;
+    padding: 14px 30px;
+    border-radius: 4px;
+    border: none;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+#booking-available-yachts .submit-btn:hover,
+#booking-available-yachts .submit-btn:focus,
+.booking-form .submit-btn:hover,
+.booking-form .submit-btn:focus {
+    opacity: 0.9;
+}
+
+.booking-cta {
+    margin-top: 80px;
+    margin-bottom: 30px;
+}
+
+.booking-cta h1 {
+    font-size: 52px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 700;
+}
+
+.booking-cta p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.select2-container--default .select2-selection--single {
+    background-color: #ebecee !important;
+}
+
+/*LOADER*/
+.loader,
+.loader:after {
+    border-radius: 50%;
+    width: 10em;
+    height: 10em;
+}
+
+.loader {
+    margin: 60px auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+    border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+    border-left: 1.1em solid #ffffff;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: load8 1.1s infinite linear;
+}
+
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+#loader-wrapper {
+    display: none;
+}
+
+#loader-wrapper.active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+}
+
+/*DATEPICKER*/
+.table-condensed > tbody > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > thead > tr > th {
+    white-space: nowrap !important;
+}
+
+/*YACHT CARD*/
+.yacht-card {
+    height: 40vh;
+    padding: 0;
+}
+.yacht-image-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.yacht-card-content {
+    opacity: 0;
+    z-index: 999;
+    background-color: rgba(47, 103, 177, 0.6);
+    transition: opacity 0.4s ease-out;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.yacht-card-content * {
+    margin: 0;
+    color: #fff;
+    font-weight: 300;
+}
+
+.yacht-card:hover .yacht-card-content {
+    opacity: 1;
+}
+
+.yacht-card-informations {
+    display: flex;
+    flex-direction: row;
+    margin: 1vh 0;
+}
+
+.yacht-card-information:not(:last-child) {
+    border-right: 1px solid #fff;
+}
+
+.yacht-card-information {
+    padding: 0 0.5vw;
+    white-space: nowrap;
+}
+
+.yacht-card-information > h3 {
+    font-size: 1vw;
+}
+
+.yacht-card-information > h3 > span {
+    font-size: 1.25vw;
+}
+
+.yacht-card-title > h2{
+    font-size: 2vw;
+    font-weight: 400 !important;
+}
+
+@media screen and (max-width: 992px) {
+    .yacht-card-title > h2 {
+        font-size: 7vw !important;
+    }
+
+    .yacht-card-information > h3 > span {
+        font-size: 5vw !important;
+    }
+
+    .yacht-card-information > h3 {
+        font-size: 4vw !important;
+    }
+
+    .yacht-card-information {
+        padding: 0 2vw !important;
+    }
+
+    .yacht-card .yacht-card-content {
+        opacity: 1 !important;
+    }
+}
+
+#modal-contact-info {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(47, 103, 177, 0.6);
+    z-index: 99900;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-contact-info.active {
+    display: flex;
+}
+
+#modal-contact-info > .row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-group-yacht {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#site-header {
+    display: none !important;
+}
+
+#site-footer {
+    display: none !important;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+#advanced-search-container {
+    display: none;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.select2 {
+    width: 100% !important;
+}
+
+hr {
+    margin: 4rem 0 !important;
+}
