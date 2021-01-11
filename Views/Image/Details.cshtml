@@ -8,13 +8,15 @@
 
 <div>
     <h4>ImageModel</h4>
-    <hr />
+    <hr/>
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Filename)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Filename)
+        <dd class="col-sm-10">
+            <img src="~/images/@Model.RealFilename"
+                 height="200" width="200"
+                 asp-append-version="true"/>
         </dd>
     </dl>
 </div>
