@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  db:
+    container_name: mysql_proiect_daw
+    volumes:
+      - ./mysql-persistence:/var/lib/mysql
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: proiect-daw
+      MYSQL_DATABASE: proiect-daw
+      MYSQL_USER: proiect-daw
+      MYSQL_PASSWORD: proiect-daw
+    ports:
+      - "8101:3306"
