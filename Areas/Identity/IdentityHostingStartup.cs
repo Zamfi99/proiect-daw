@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql;
-using RAW_Yacht.Areas.Data;
+using DAW_Yacht.Areas.Identity.Data;
 
 [assembly: HostingStartup(typeof(DAW_Yacht.Areas.Identity.IdentityHostingStartup))]
 namespace DAW_Yacht.Areas.Identity

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace RAW_Yacht.Areas.Data
+namespace DAW_Yacht.Areas.Identity.Data
 {
     public class IdentityDataContext : IdentityDbContext<IdentityUser>
     {

@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RAW_Yacht.Areas.Data;
+using DAW_Yacht.Areas.Identity.Data;
 
 namespace DAW_Yacht.Migrations
 {

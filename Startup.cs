@@ -27,6 +27,10 @@ namespace DAW_Yacht
 
         public void ConfigureServices(IServiceCollection services)
         {
+            string mySqlConnectionStr = Configuration.GetConnectionString("IdentityDataContextConnection");
+            services.AddDbContext<ModelsContext>(options =>
+                options.UseMySql(
+                    mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -36,7 +40,6 @@ namespace DAW_Yacht
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
