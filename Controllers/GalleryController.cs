@@ -45,6 +45,8 @@ namespace DAW_Yacht.Controllers
         // GET: Gallery/Create
         public IActionResult Create()
         {
+            var images = _context.Images;
+            ViewBag.images = images;
             return View();
         }
 
@@ -53,7 +55,7 @@ namespace DAW_Yacht.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] GalleryModel galleryModel)
+        public async Task<IActionResult> Create([Bind("Id,Name,IdImages")] GalleryModel galleryModel)
         {
             if (ModelState.IsValid)
             {

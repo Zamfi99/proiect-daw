@@ -20,6 +20,6 @@ namespace DAW_Yacht.Models
         [MaxLength(500)]
         public string RealFilename { get; set; }
         // one to many
-        public virtual ICollection<GalleryModel> Galleries { get; set; } 
+        public ICollection<GalleryModel> Galleries { get; set; } 
     }
 }
