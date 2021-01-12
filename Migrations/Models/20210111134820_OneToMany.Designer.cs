@@ -3,14 +3,16 @@ using System;
 using DAW_Yacht.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAW_Yacht.Migrations.Models
 {
     [DbContext(typeof(ModelsContext))]
-    partial class ModelsContextModelSnapshot : ModelSnapshot
+    [Migration("20210111134820_OneToMany")]
+    partial class OneToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,12 +123,17 @@ namespace DAW_Yacht.Migrations.Models
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("GalleryModelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("RealFilename")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GalleryModelId");
 
                     b.ToTable("Images");
                 });
@@ -184,21 +191,6 @@ namespace DAW_Yacht.Migrations.Models
                     b.ToTable("Yachts");
                 });
 
-            modelBuilder.Entity("GalleryModelImageModel", b =>
-                {
-                    b.Property<int>("GalleryModelsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ImageModelsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GalleryModelsId", "ImageModelsId");
-
-                    b.HasIndex("ImageModelsId");
-
-                    b.ToTable("GalleryModelImageModel");
-                });
-
             modelBuilder.Entity("DAW_Yacht.Models.BookingModel", b =>
                 {
                     b.HasOne("DAW_Yacht.Models.ApplicationUser", "User")
@@ -214,6 +206,13 @@ namespace DAW_Yacht.Migrations.Models
                     b.Navigation("Yacht");
                 });
 
+            modelBuilder.Entity("DAW_Yacht.Models.ImageModel", b =>
+                {
+                    b.HasOne("DAW_Yacht.Models.GalleryModel", null)
+                        .WithMany("IdImages")
+                        .HasForeignKey("GalleryModelId");
+                });
+
             modelBuilder.Entity("DAW_Yacht.Models.YachtModel", b =>
                 {
                     b.HasOne("DAW_Yacht.Models.GalleryModel", "GalleryId")
@@ -223,19 +222,9 @@ namespace DAW_Yacht.Migrations.Models
                     b.Navigation("GalleryId");
                 });
 
-            modelBuilder.Entity("GalleryModelImageModel", b =>
+            modelBuilder.Entity("DAW_Yacht.Models.GalleryModel", b =>
                 {
-                    b.HasOne("DAW_Yacht.Models.GalleryModel", null)
-                        .WithMany()
-                        .HasForeignKey("GalleryModelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAW_Yacht.Models.ImageModel", null)
-                        .WithMany()
-                        .HasForeignKey("ImageModelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("IdImages");
                 });
 #pragma warning restore 612, 618
         }

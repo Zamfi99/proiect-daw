@@ -1,8 +1,11 @@
-@using System.Collections
 @model DAW_Yacht.Models.GalleryModel
 
 @{
     ViewData["Title"] = "Create";
+}
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 }
 
 <h1>Create</h1>
@@ -18,15 +21,9 @@
                 <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div id="images">
-            @foreach (var item in ViewBag.images)
-            {
-                <button data-id="@item.Id" type="button">
-                    <img src="~/images/@item.RealFilename"
-                         height="200" width="200"
-                         asp-append-version="true"/>
-                </button>
-            }
+            <div class="form-group">
+                <label asp-for="ImageModels" class="control-label"></label>
+                <select asp-for="ImageModels" asp-items="@ViewBag.Images"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary"/>
@@ -40,16 +37,31 @@
 </div>
 
 <script type="text/javascript">
+function formatState (state) {
+  if (!state.id) {
+    return state.text;
+  }
+  var baseUrl = "/images";
+  var $state = $(
+    '<span><img src="' + baseUrl + '/' + state.text + '" width="100px" height="100px" /> ' + state.text + '</span>'
+  );
+  return $state;
+};
 window.addEventListener("load", () => {
-   $("#images > button").each((index, element) => {
-          $(element).on("click", (ev) => {
-              $("#images").after("<input type='hidden' name='IdImages[]' val='" + String($(ev.target).parent().attr("data-id")) + "'/>");
-              $(ev.target).parent().addClass("border-danger");
-          });
-      }); 
+    // $("#ImageModels > option").each((index, element) => {
+    //     $(element).html("<img src='/images/" + $(element).html() + "' width='200px' height='200px' />");
+    // });
+    $("#ImageModels").select2({
+        multiple: true,
+        templateResult: formatState
+    });
+    
+    
 });
 </script>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
 }

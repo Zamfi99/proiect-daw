@@ -3,14 +3,16 @@ using System;
 using DAW_Yacht.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAW_Yacht.Migrations.Models
 {
     [DbContext(typeof(ModelsContext))]
-    partial class ModelsContextModelSnapshot : ModelSnapshot
+    [Migration("20210111134702_AddedVirtualProperty")]
+    partial class AddedVirtualProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,15 +188,15 @@ namespace DAW_Yacht.Migrations.Models
 
             modelBuilder.Entity("GalleryModelImageModel", b =>
                 {
-                    b.Property<int>("GalleryModelsId")
+                    b.Property<int>("GalleriesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ImageModelsId")
+                    b.Property<int>("IdImagesId")
                         .HasColumnType("int");
 
-                    b.HasKey("GalleryModelsId", "ImageModelsId");
+                    b.HasKey("GalleriesId", "IdImagesId");
 
-                    b.HasIndex("ImageModelsId");
+                    b.HasIndex("IdImagesId");
 
                     b.ToTable("GalleryModelImageModel");
                 });
@@ -227,13 +229,13 @@ namespace DAW_Yacht.Migrations.Models
                 {
                     b.HasOne("DAW_Yacht.Models.GalleryModel", null)
                         .WithMany()
-                        .HasForeignKey("GalleryModelsId")
+                        .HasForeignKey("GalleriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAW_Yacht.Models.ImageModel", null)
                         .WithMany()
-                        .HasForeignKey("ImageModelsId")
+                        .HasForeignKey("IdImagesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

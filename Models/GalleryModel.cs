@@ -11,7 +11,8 @@ namespace DAW_Yacht.Models
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+        
         // one to many
-        public ICollection<ImageModel> IdImages { get; set; }
+        public ICollection<ImageModel> ImageModels { get; set; }
     }
 }

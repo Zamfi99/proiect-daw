@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAW_Yacht.Models;
+using Microsoft.CodeAnalysis;
+using Org.BouncyCastle.Ocsp;
 
 namespace DAW_Yacht.Controllers
 {
@@ -45,8 +47,9 @@ namespace DAW_Yacht.Controllers
         // GET: Gallery/Create
         public IActionResult Create()
         {
-            var images = _context.Images;
-            ViewBag.images = images;
+            // var images = _context.Images;
+            // ViewBag.images = images;
+            ViewBag.Images = new SelectList(_context.Images, "Id", "RealFilename");
             return View();
         }
 
@@ -54,21 +57,37 @@ namespace DAW_Yacht.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IdImages")] GalleryModel galleryModel)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(GalleryModel galleryModel)
         {
             if (ModelState.IsValid)
             {
+                var dict = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
+                List<ImageModel> image_ids = null;
+                foreach (string key in HttpContext.Request.Form.Keys)
+                {
+                    var a = dict[key];
+                    if (key == "ImageModels")
+                    {
+                        image_ids = _context.Images
+                            .FromSqlRaw("SELECT * FROM `proiect-daw`.`Images` WHERE Id IN (" + dict[key] + ")")
+                            .ToList();
+                    }
+                }
+                
+                galleryModel.ImageModels = image_ids;
                 _context.Add(galleryModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.images = new SelectList(_context.Images, "Id", "RealFilename", galleryModel.ImageModels);
             return View(galleryModel);
         }
 
         // GET: Gallery/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Images = new SelectList(_context.Images, "Id", "Id");
             if (id == null)
             {
                 return NotFound();
