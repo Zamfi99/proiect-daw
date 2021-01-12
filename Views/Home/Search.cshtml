@@ -1,0 +1,32 @@
+@model SearchModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Cautare</title>
+</head>
+<body>
+<div>
+    <form asp-action="ShowSearch" method="GET">
+        <div class="form-group">
+            <label asp-for="TitluPozie" class="control-label"></label>
+            <input asp-for="TitluPozie" class="form-control"/>
+            <span asp-validation-for="TitluPozie" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TitluVolum" class="control-label"></label>
+            <input asp-for="TitluVolum" class="form-control"/>
+            <span asp-validation-for="TitluVolum" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Cauta" class="btn btn-primary"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -33,6 +33,31 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Role\Create.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Role\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Price\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Price\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Price\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Price\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Price\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Gallery\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Gallery\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Gallery\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Gallery\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Gallery\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Image\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Image\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Image\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Image\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Image\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Booking\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Booking\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Booking\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Booking\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Booking\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Yacht\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Yacht\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Yacht\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Yacht\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Yacht\Index.cshtml" />
     </ItemGroup>
 
 </Project>

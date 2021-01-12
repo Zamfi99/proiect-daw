@@ -3,68 +3,11 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/home.css"/>
-    <link rel="stylesheet" href="~/vendor/daterangepicker.css"/>
+    
 }
 
 @section Scripts {
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.min.js" type="text/javascript"></script>
-    <script src="~/vendor/jquery.daterangepicker.js"></script>
+    
 }
 
-<div id="booking" class="section">
-    <div class="section-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7 col-md-push-5">
-                    <div class="booking-cta">
-                        <h1>Inchiriaza acum un Yacht</h1>
-                        <p>
-                            Compania noastra ofera servicii de inchiriere de iahturi de lux in sute de locatii din
-                            intreaga lume, aspiram sa va satisfacem fiecare nevoie
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-md-pull-7">
-                    <div class="booking-form">
-                        <form onsubmit="return false">
-                            <div class="form-group">
-                                <span class="form-label">Perioada</span>
-                                <input class="form-control" size="60" value="" required="" placeholder="Alege perioada rezervarii"
-                                       name="reservation_date" id="reservation_date">
-                            </div>
-                            <input type="hidden" name="DateStart" id="DateStart"/>
-                            <input type="hidden" name="DateEnd" id="DateEnd"/>
-                            <hr/>
-                            <div class="form-btn d-flex justify-center align-center">
-                                <button class="submit-btn" type="button" id="check-availability">
-                                    Verifica
-                                    disponibilitatea
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-window.addEventListener("load", () => {
-    moment.locale('ro');
-    $('#reservation_date').dateRangePicker(
-    {
-    	showShortcuts: false,
-    	format: 'YYYY-MM-DD',
-    	language: 'ro',
-    	autoClose: true,
-    	separator: ' pana la ',
-    	minDays: 1,
-    	startDate: new Date()
-    }).bind('datepicker-change', function(evt, obj) {
-        $("#DateStart").val(obj.date1);
-        $("#DateEnd").val(obj.date2);
-    });
-});
-</script>
+<h1>Acasa</h1>

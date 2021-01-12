@@ -1,0 +1,50 @@
+@model IEnumerable<DAW_Yacht.Models.PozieModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titlu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Strofe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volum)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titlu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Strofe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volum.Denumire)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

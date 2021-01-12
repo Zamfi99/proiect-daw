@@ -85,8 +85,6 @@ namespace DAW_Yacht
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            
-            CreateUserRoles(serviceProvider).Wait();
         }
     }
 }
