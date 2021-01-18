@@ -29,7 +29,7 @@ namespace DAW_Yacht.Models
         public int GalleryId { get; set; }
         // one to one
         [Column(TypeName = "int(10)")]
-        public GalleryModel Gallery { get; set; }
+        public virtual GalleryModel Gallery { get; set; }
         
         
         

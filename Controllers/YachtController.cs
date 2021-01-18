@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,23 +21,8 @@ namespace DAW_Yacht.Controllers
         // GET: Yacht
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Yachts.ToListAsync());
-        }
-
-        public async Task<IActionResult> Find()
-        {
-            DateTime DateStart = DateTime.Parse(Request.Query["DateStart"]);
-            DateTime DateEnd = DateTime.Parse(Request.Query["DateEnd"]);
-            var yachts = await _context.Yachts
-                .Include(y => y.BookingModels)
-                .Where(
-                    y => !y.BookingModels.Any(
-                        b => (
-                                DateEnd > b.DateStart && DateStart < b.DateEnd
-                            )
-                    )
-            ).ToListAsync();
-            return View(yachts);
+            var modelsContext = _context.Yachts.Include(y => y.Gallery);
+            return View(await modelsContext.ToListAsync());
         }
 
         // GET: Yacht/Details/5
@@ -50,6 +34,7 @@ namespace DAW_Yacht.Controllers
             }
 
             var yachtModel = await _context.Yachts
+                .Include(y => y.Gallery)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (yachtModel == null)
             {
@@ -62,6 +47,7 @@ namespace DAW_Yacht.Controllers
         // GET: Yacht/Create
         public IActionResult Create()
         {
+            ViewData["GalleryId"] = new SelectList(_context.Gallery, "Id", "Name");
             return View();
         }
 
@@ -70,7 +56,7 @@ namespace DAW_Yacht.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Length,Rooms,Capacity,BasePrice")] YachtModel yachtModel)
+        public async Task<IActionResult> Create([Bind("Id,Name,Length,Rooms,Capacity,BasePrice,GalleryId")] YachtModel yachtModel)
         {
             if (ModelState.IsValid)
             {
@@ -78,6 +64,7 @@ namespace DAW_Yacht.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GalleryId"] = new SelectList(_context.Gallery, "Id", "Name", yachtModel.GalleryId);
             return View(yachtModel);
         }
 
@@ -94,6 +81,7 @@ namespace DAW_Yacht.Controllers
             {
                 return NotFound();
             }
+            ViewData["GalleryId"] = new SelectList(_context.Gallery, "Id", "Name", yachtModel.GalleryId);
             return View(yachtModel);
         }
 
@@ -102,7 +90,7 @@ namespace DAW_Yacht.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Length,Rooms,Capacity,BasePrice")] YachtModel yachtModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Length,Rooms,Capacity,BasePrice,GalleryId")] YachtModel yachtModel)
         {
             if (id != yachtModel.Id)
             {
@@ -129,6 +117,7 @@ namespace DAW_Yacht.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GalleryId"] = new SelectList(_context.Gallery, "Id", "Name", yachtModel.GalleryId);
             return View(yachtModel);
         }
 
@@ -141,6 +130,7 @@ namespace DAW_Yacht.Controllers
             }
 
             var yachtModel = await _context.Yachts
+                .Include(y => y.Gallery)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (yachtModel == null)
             {
@@ -165,8 +155,28 @@ namespace DAW_Yacht.Controllers
         {
             return _context.Yachts.Any(e => e.Id == id);
         }
+        
+        public async Task<IActionResult> Find()
+        {
+            DateTime DateStart = DateTime.Parse(Request.Query["DateStart"]);
+            DateTime DateEnd = DateTime.Parse(Request.Query["DateEnd"]);
+            var yachts = await _context.Yachts
+                .Include(y => y.BookingModels)
+                .Include(y => y.Gallery)
+                .Where(
+                    y => !y.BookingModels.Any(
+                        b => (
+                            DateEnd > b.DateStart && DateStart < b.DateEnd
+                        )
+                    )
+                ).ToListAsync();
+            return View(yachts);
+        }
+
+        public async Task<IActionResult> Book()
+        {
+            var prices = await _context.Price.ToListAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
-
-
-
