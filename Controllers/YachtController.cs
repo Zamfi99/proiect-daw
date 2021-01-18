@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,22 @@ namespace DAW_Yacht.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Yachts.ToListAsync());
+        }
+
+        public async Task<IActionResult> Find()
+        {
+            DateTime DateStart = DateTime.Parse(Request.Query["DateStart"]);
+            DateTime DateEnd = DateTime.Parse(Request.Query["DateEnd"]);
+            var yachts = await _context.Yachts
+                .Include(y => y.BookingModels)
+                .Where(
+                    y => !y.BookingModels.Any(
+                        b => (
+                                DateEnd > b.DateStart && DateStart < b.DateEnd
+                            )
+                    )
+            ).ToListAsync();
+            return View(yachts);
         }
 
         // GET: Yacht/Details/5
@@ -150,3 +167,6 @@ namespace DAW_Yacht.Controllers
         }
     }
 }
+
+
+

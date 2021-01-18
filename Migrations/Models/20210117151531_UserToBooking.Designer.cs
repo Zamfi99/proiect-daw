@@ -3,14 +3,16 @@ using System;
 using DAW_Yacht.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAW_Yacht.Migrations.Models
 {
     [DbContext(typeof(ModelsContext))]
-    partial class ModelsContextModelSnapshot : ModelSnapshot
+    [Migration("20210117151531_UserToBooking")]
+    partial class UserToBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace DAW_Yacht.Migrations.Models
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("DAW_Yacht.Models.BookingModel", b =>
@@ -84,7 +86,10 @@ namespace DAW_Yacht.Migrations.Models
                     b.Property<float>("Price")
                         .HasColumnType("float");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("YachtId")
@@ -92,7 +97,7 @@ namespace DAW_Yacht.Migrations.Models
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.HasIndex("YachtId");
 
@@ -203,7 +208,7 @@ namespace DAW_Yacht.Migrations.Models
                 {
                     b.HasOne("DAW_Yacht.Models.ApplicationUser", "User")
                         .WithMany("BookingModels")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.HasOne("DAW_Yacht.Models.YachtModel", "Yacht")
                         .WithMany("BookingModels")

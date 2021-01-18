@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-4 col-md-pull-7">
                     <div class="booking-form">
-                        <form onsubmit="return false">
+                        <form asp-controller="Yacht" asp-action="Find" method="get">
                             <div class="form-group">
                                 <span class="form-label">Perioada</span>
                                 <input class="form-control" size="60" value="" required="" placeholder="Alege perioada rezervarii"
@@ -37,7 +37,7 @@
                             <input type="hidden" name="DateEnd" id="DateEnd"/>
                             <hr/>
                             <div class="form-btn d-flex justify-center align-center">
-                                <button class="submit-btn" type="button" id="check-availability">
+                                <button class="submit-btn" type="submit" id="check-availability">
                                     Verifica
                                     disponibilitatea
                                 </button>
@@ -63,8 +63,8 @@ window.addEventListener("load", () => {
     	minDays: 1,
     	startDate: new Date()
     }).bind('datepicker-change', function(evt, obj) {
-        $("#DateStart").val(obj.date1);
-        $("#DateEnd").val(obj.date2);
+        $("#DateStart").val(moment(obj.date1).format("YYYY-MM-DD HH:mm:ss"));
+        $("#DateEnd").val(moment(obj.date2).format("YYYY-MM-DD HH:mm:ss"));
     });
 });
 </script>

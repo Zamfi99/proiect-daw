@@ -3,14 +3,16 @@ using System;
 using DAW_Yacht.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAW_Yacht.Migrations.Models
 {
     [DbContext(typeof(ModelsContext))]
-    partial class ModelsContextModelSnapshot : ModelSnapshot
+    [Migration("20210117144022_ManyToManyBookingYacht")]
+    partial class ManyToManyBookingYacht
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace DAW_Yacht.Migrations.Models
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("ApplicationUser");
                 });
 
             modelBuilder.Entity("DAW_Yacht.Models.BookingModel", b =>
@@ -93,8 +95,6 @@ namespace DAW_Yacht.Migrations.Models
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("YachtId");
 
                     b.ToTable("Booking");
                 });
@@ -177,9 +177,15 @@ namespace DAW_Yacht.Migrations.Models
                     b.Property<int>("Rooms")
                         .HasColumnType("int(10)");
 
+                    b.Property<int?>("fk_yacht_booking_id")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GalleryIdId");
+
+                    b.HasIndex("fk_yacht_booking_id")
+                        .IsUnique();
 
                     b.ToTable("Yachts");
                 });
@@ -202,18 +208,10 @@ namespace DAW_Yacht.Migrations.Models
             modelBuilder.Entity("DAW_Yacht.Models.BookingModel", b =>
                 {
                     b.HasOne("DAW_Yacht.Models.ApplicationUser", "User")
-                        .WithMany("BookingModels")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.HasOne("DAW_Yacht.Models.YachtModel", "Yacht")
-                        .WithMany("BookingModels")
-                        .HasForeignKey("YachtId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("User");
-
-                    b.Navigation("Yacht");
                 });
 
             modelBuilder.Entity("DAW_Yacht.Models.YachtModel", b =>
@@ -221,6 +219,12 @@ namespace DAW_Yacht.Migrations.Models
                     b.HasOne("DAW_Yacht.Models.GalleryModel", "GalleryId")
                         .WithMany()
                         .HasForeignKey("GalleryIdId");
+
+                    b.HasOne("DAW_Yacht.Models.BookingModel", "BookingId")
+                        .WithOne("Yacht")
+                        .HasForeignKey("DAW_Yacht.Models.YachtModel", "fk_yacht_booking_id");
+
+                    b.Navigation("BookingId");
 
                     b.Navigation("GalleryId");
                 });
@@ -240,14 +244,10 @@ namespace DAW_Yacht.Migrations.Models
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DAW_Yacht.Models.ApplicationUser", b =>
+            modelBuilder.Entity("DAW_Yacht.Models.BookingModel", b =>
                 {
-                    b.Navigation("BookingModels");
-                });
-
-            modelBuilder.Entity("DAW_Yacht.Models.YachtModel", b =>
-                {
-                    b.Navigation("BookingModels");
+                    b.Navigation("Yacht")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

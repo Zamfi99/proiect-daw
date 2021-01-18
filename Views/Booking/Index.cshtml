@@ -13,6 +13,12 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Yacht)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DateStart)
             </th>
             <th>
@@ -27,6 +33,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yacht.Name)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateStart)
             </td>

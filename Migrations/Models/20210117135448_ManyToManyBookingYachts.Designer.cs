@@ -3,14 +3,16 @@ using System;
 using DAW_Yacht.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAW_Yacht.Migrations.Models
 {
     [DbContext(typeof(ModelsContext))]
-    partial class ModelsContextModelSnapshot : ModelSnapshot
+    [Migration("20210117135448_ManyToManyBookingYachts")]
+    partial class ManyToManyBookingYachts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace DAW_Yacht.Migrations.Models
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("ApplicationUser");
                 });
 
             modelBuilder.Entity("DAW_Yacht.Models.BookingModel", b =>
@@ -94,7 +96,8 @@ namespace DAW_Yacht.Migrations.Models
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("YachtId");
+                    b.HasIndex("YachtId")
+                        .IsUnique();
 
                     b.ToTable("Booking");
                 });
@@ -202,12 +205,12 @@ namespace DAW_Yacht.Migrations.Models
             modelBuilder.Entity("DAW_Yacht.Models.BookingModel", b =>
                 {
                     b.HasOne("DAW_Yacht.Models.ApplicationUser", "User")
-                        .WithMany("BookingModels")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.HasOne("DAW_Yacht.Models.YachtModel", "Yacht")
-                        .WithMany("BookingModels")
-                        .HasForeignKey("YachtId")
+                        .WithOne("BookingId")
+                        .HasForeignKey("DAW_Yacht.Models.BookingModel", "YachtId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -240,14 +243,9 @@ namespace DAW_Yacht.Migrations.Models
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DAW_Yacht.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("BookingModels");
-                });
-
             modelBuilder.Entity("DAW_Yacht.Models.YachtModel", b =>
                 {
-                    b.Navigation("BookingModels");
+                    b.Navigation("BookingId");
                 });
 #pragma warning restore 612, 618
         }

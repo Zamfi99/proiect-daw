@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,8 +25,17 @@ namespace DAW_Yacht.Models
         [Column(TypeName = "decimal(10,2)")]
         public float BasePrice { get; set; }
         
+        [ForeignKey("fk_booking_gallery_id")]
+        public int GalleryId { get; set; }
         // one to one
         [Column(TypeName = "int(10)")]
-        public GalleryModel GalleryId { get; set; }
+        public GalleryModel Gallery { get; set; }
+        
+        
+        
+        public virtual ICollection<BookingModel> BookingModels { get; set; }
+        
+        // [ForeignKey("fk_yacht_booking_id")]
+        // public BookingModel BookingId { get; set; }
     }
 }

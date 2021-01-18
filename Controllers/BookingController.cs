@@ -21,7 +21,8 @@ namespace DAW_Yacht.Controllers
         // GET: Booking
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Booking.ToListAsync());
+            var modelsContext = _context.Booking.Include(b => b.User).Include(b => b.Yacht);
+            return View(await modelsContext.ToListAsync());
         }
 
         // GET: Booking/Details/5
@@ -33,6 +34,8 @@ namespace DAW_Yacht.Controllers
             }
 
             var bookingModel = await _context.Booking
+                .Include(b => b.User)
+                .Include(b => b.Yacht)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (bookingModel == null)
             {
@@ -45,6 +48,8 @@ namespace DAW_Yacht.Controllers
         // GET: Booking/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "UserName");
+            ViewData["YachtId"] = new SelectList(_context.Yachts, "Id", "Name");
             return View();
         }
 
@@ -53,7 +58,7 @@ namespace DAW_Yacht.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DateStart,DateEnd,Price")] BookingModel bookingModel)
+        public async Task<IActionResult> Create([Bind("Id,UserId,YachtId,DateStart,DateEnd,Price")] BookingModel bookingModel)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +66,8 @@ namespace DAW_Yacht.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "UserName", bookingModel.UserId);
+            ViewData["YachtId"] = new SelectList(_context.Yachts, "Id", "Name", bookingModel.YachtId);
             return View(bookingModel);
         }
 
@@ -77,6 +84,8 @@ namespace DAW_Yacht.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "UserName", bookingModel.UserId);
+            ViewData["YachtId"] = new SelectList(_context.Yachts, "Id", "Name", bookingModel.YachtId);
             return View(bookingModel);
         }
 
@@ -85,7 +94,7 @@ namespace DAW_Yacht.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateStart,DateEnd,Price")] BookingModel bookingModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,YachtId,DateStart,DateEnd,Price")] BookingModel bookingModel)
         {
             if (id != bookingModel.Id)
             {
@@ -112,6 +121,8 @@ namespace DAW_Yacht.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "UserName", bookingModel.UserId);
+            ViewData["YachtId"] = new SelectList(_context.Yachts, "Id", "Name", bookingModel.YachtId);
             return View(bookingModel);
         }
 
@@ -124,6 +135,8 @@ namespace DAW_Yacht.Controllers
             }
 
             var bookingModel = await _context.Booking
+                .Include(b => b.User)
+                .Include(b => b.Yacht)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (bookingModel == null)
             {

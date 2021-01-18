@@ -15,6 +15,7 @@ namespace DAW_Yacht.Models
         public DbSet<GalleryModel> Gallery { get; set; }
         public DbSet<BookingModel> Booking { get; set; }
         public DbSet<PriceModel> Price { get; set; }
+        public DbSet<ApplicationUser> User { get; set; }
         public ModelsContext(DbContextOptions options)
             : base(options)
         {
@@ -24,6 +25,10 @@ namespace DAW_Yacht.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ApplicationUser>(b =>
+            {
+                b.ToTable("AspNetUsers");
+            });
         }
     }
 }
