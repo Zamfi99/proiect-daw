@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAW_Yacht.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 
 namespace DAW_Yacht.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ImageController : Controller
     {
         private readonly ModelsContext _context;  

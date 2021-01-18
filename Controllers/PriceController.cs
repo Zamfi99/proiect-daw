@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAW_Yacht.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DAW_Yacht.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PriceController : Controller
     {
         private readonly ModelsContext _context;

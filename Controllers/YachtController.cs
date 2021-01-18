@@ -6,16 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAW_Yacht.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Org.BouncyCastle.Ocsp;
 
 namespace DAW_Yacht.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class YachtController : Controller
     {
         private readonly ModelsContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public YachtController(ModelsContext context)
+        public YachtController(ModelsContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Yacht
@@ -156,6 +162,7 @@ namespace DAW_Yacht.Controllers
             return _context.Yachts.Any(e => e.Id == id);
         }
         
+        [AllowAnonymous]
         public async Task<IActionResult> Find()
         {
             DateTime DateStart = DateTime.Parse(Request.Query["DateStart"]);
@@ -163,6 +170,7 @@ namespace DAW_Yacht.Controllers
             var yachts = await _context.Yachts
                 .Include(y => y.BookingModels)
                 .Include(y => y.Gallery)
+                .Include(y => y.Gallery.ImageModels)
                 .Where(
                     y => !y.BookingModels.Any(
                         b => (
@@ -170,12 +178,33 @@ namespace DAW_Yacht.Controllers
                         )
                     )
                 ).ToListAsync();
+            ViewBag.DateStart = DateStart;
+            ViewBag.DateEnd = DateEnd;
             return View(yachts);
         }
-
+        
+        [Authorize(Roles = "Admin,Guest")]
+        [HttpPost]
         public async Task<IActionResult> Book()
         {
-            var prices = await _context.Price.ToListAsync();
+            int YachtId = Int32.Parse(Request.Form["YachtId"]);
+            DateTime DateStart = DateTime.Parse(Request.Form["DateStart"]);
+            DateTime DateEnd = DateTime.Parse(Request.Form["DateEnd"]);
+            var prices = await _context.Price.Where(
+                p => p.DateStart <= DateStart && p.DateEnd >= DateStart &&
+                     p.DateStart <= DateEnd && p.DateEnd >= DateEnd
+            ).FirstOrDefaultAsync();
+            var yacht = await _context.Yachts.Where(y => y.Id == YachtId).FirstOrDefaultAsync();
+            var days = Math.Abs(DateEnd.Subtract(DateStart).Days);
+            var booking = new BookingModel();
+            booking.Price = yacht.BasePrice * (100 + prices.Grow) / 100 * days;
+            booking.User = await _userManager.GetUserAsync(User);
+            booking.Yacht = yacht;
+            booking.DateStart = DateStart;
+            booking.DateEnd = DateEnd;
+            _context.Attach(booking).State = EntityState.Added;
+            await _context.SaveChangesAsync();
+            
             return RedirectToAction("Index", "Home");
         }
     }
